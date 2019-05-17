@@ -1,0 +1,20 @@
+// Given an array of integers, return indices of the two numbers such that they add up to a specific target
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> map;
+        unordered_map<int,int>::iterator map_i;
+        vector<int> result; // for storing indices
+        for(int i = 0; i < nums.size(); i++){ // insert and search for complement in same loop
+            map.insert({nums[i], i}); 
+            int complement = target - nums[i];
+            if(map.find(complement) != map.end() && map.find(complement)->second != i){
+                result.push_back(map[complement]);
+                result.push_back(i);
+                return result;
+            }
+        }
+        throw "no solution";
+    }
+};
