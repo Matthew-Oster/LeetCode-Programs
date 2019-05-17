@@ -1,0 +1,31 @@
+// "Given a string, find the length of the longest substring without repeating characters."
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        string substring;
+        int substringLength = 0;
+        int largestSubstringLength = 0;
+        for(auto i = s.begin(); i != s.end(); i++){
+            if(substring.find(*i) == string::npos){ // character not already in substring
+                substring += *i;
+                substringLength += 1;
+            }
+            else{
+                int lastCharPosition = substring.find(*i);
+                substring.erase(0, lastCharPosition + 1);
+                if(substringLength > largestSubstringLength)
+                    largestSubstringLength = substringLength;
+                substringLength -= lastCharPosition + 1;
+                
+                substring += *i;
+                substringLength += 1;
+            }
+            
+            if(substringLength > largestSubstringLength)
+                largestSubstringLength = substringLength;
+        }
+        cout << substring;
+        return largestSubstringLength;
+    }
+};
