@@ -1,0 +1,85 @@
+// "You are given two non-empty linked lists representing two non-negative integers.
+// The digits are stored in reverse order and each of their nodes contain a single digit.
+// Add the two numbers and return it as a linked list."
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* get_next1 = l1;
+        ListNode* get_next2 = l2;
+        ListNode* sum_head = new ListNode(0);
+        ListNode* sum_i = sum_head;
+        int nodeTotal;
+        
+        while(get_next1 != NULL || get_next2 != NULL){
+            
+            // l1 has more digits
+            if(get_next1 != NULL && get_next2 == NULL){
+                nodeTotal = sum_i->val + get_next1->val;
+                if(nodeTotal >= 10){
+                    sum_i->val = nodeTotal - 10;
+                    get_next1 = get_next1->next;
+                    sum_i->next = new ListNode(1);
+                    sum_i = sum_i->next;
+                }
+                else{
+                    sum_i->val += get_next1->val;
+                    get_next1 = get_next1->next;
+                    if(get_next1 != NULL)
+                        sum_i->next = new ListNode(0);
+                    sum_i = sum_i->next;
+                }
+            }
+            
+            // l2 has more digits
+            else if(get_next1 == NULL && get_next2 != NULL){
+                nodeTotal = sum_i->val + get_next2->val;
+                if(nodeTotal >= 10){
+                    sum_i->val = nodeTotal - 10;
+                    get_next2 = get_next2->next;
+                    sum_i->next = new ListNode(1);
+                    sum_i = sum_i->next;
+                }
+                else{
+                    sum_i->val += get_next2->val;
+                    get_next2 = get_next2->next;
+                    if(get_next2 != NULL)
+                        sum_i->next = new ListNode(0);
+                    sum_i = sum_i->next;
+                }
+            }
+            
+            // both have more digits
+            else{
+                nodeTotal = sum_i->val + get_next1->val + get_next2->val;
+                
+                // digit adds to over 10
+                if(nodeTotal >= 10){
+                    sum_i->val = nodeTotal - 10;
+                    get_next1 = get_next1->next;
+                    get_next2 = get_next2->next;
+                    sum_i->next = new ListNode(1);
+                    sum_i = sum_i->next;
+                }
+                else{
+                    sum_i->val += get_next1->val + get_next2->val;
+                    get_next1 = get_next1->next;
+                    get_next2 = get_next2->next;
+                    if(get_next1 != NULL || get_next2 != NULL)
+                        sum_i->next = new ListNode(0);
+                        sum_i = sum_i->next;
+                }
+            }   
+        }
+        
+        return sum_head;
+    }
+};
