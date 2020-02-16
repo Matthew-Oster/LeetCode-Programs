@@ -1,0 +1,22 @@
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int currentMax = 0;
+        int thisMax = 0;
+        for (auto i = height.begin(), j = height.end() - 1; i < j;){
+            thisMax = (j-i) * min(*i, *j);
+            if (thisMax > currentMax) currentMax = thisMax;
+            if(min(*i, *j) == *i) i++;
+            else j--;
+        }
+        return currentMax;
+    }
+};
+
+// Can't just pick the two largest.
+// The total volume of water contained is:
+
+// Distance apart * min height
